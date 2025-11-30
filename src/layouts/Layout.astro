@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		
+	
+		<meta name="description" content="DJ Tapia - DJ profesional especializado en música electrónica, fiestas y eventos. Reserva tu evento ahora." />
+		<meta name="keywords" content="DJ, música electrónica, eventos, fiestas, DJ profesional, música en vivo" />
+		<meta name="author" content="Richard T.A" />
+		
+		
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="DJ TAPIA - DJ Profesional" />
+		<meta property="og:description" content="DJ profesional especializado en música electrónica y eventos" />
+		<meta property="og:image" content="/logo/logo.png" />
+		
+		<!-- Performance -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+		
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="/svgs/logo.svg" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="/svgs/logo.svg" />
+		
+		<title>DJ TAPIA - | Música & Eventos</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

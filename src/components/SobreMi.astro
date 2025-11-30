@@ -1,0 +1,300 @@
+---
+import BlurText from "./jsx/blurtext/BlurText.jsx";
+import AudioVisualizer from "./jsx/AudioVisualizer/Audio.jsx";
+import Headphones3D from "./jsx/audifonos/Audifonos";
+import OptimizedImage from "./cmp/OptimizedImage.astro";
+---
+
+<section id="about" class="relative bg-gradient-to-b from-gray-900 via-black to-gray-900 py-20 lg:py-32 overflow-hidden">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      
+     
+      <div class="text-center mb-8" data-aos="fade-down" data-aos-duration="1000">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 flex justify-center">
+          <BlurText 
+            text="DJ TAPIA" 
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-orange justify-center"
+            delay={350}
+            animateBy="words"
+            client:visible
+          />
+        </h2>
+        
+        
+        <div class="w-full max-w-4xl mx-auto mb-6 px-4">
+          <AudioVisualizer client:visible />
+        </div>
+        
+        <div class="w-24 h-1 bg-orange-500 mx-auto animate-pulse"></div>
+      </div>
+
+
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        
+        <!-- Columna de Texto -->
+        <div 
+          class="text-gray-300 text-base sm:text-lg leading-relaxed p-8 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 space-y-6"
+          data-aos="fade-right" 
+          data-aos-duration="1000" 
+          data-aos-delay="100"
+        >
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde 
+            omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+          </p>
+
+          <p>
+            Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. 
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui 
+            ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
+          </p>
+
+          <p>
+            Consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat 
+            voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex 
+            ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+          </p>
+
+
+        </div>
+
+       
+        <div class="relative" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">
+       
+          <div class="absolute inset-0 rounded-lg animate-pulse-slow">
+            <div class="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-orange-500 rounded-tl-lg"></div>
+            <div class="absolute top-0 right-0 w-20 h-20 border-t-4 border-r-4 border-orange-500 rounded-tr-lg"></div>
+            <div class="absolute bottom-0 left-0 w-20 h-20 border-b-4 border-l-4 border-orange-500 rounded-bl-lg"></div>
+            <div class="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-orange-500 rounded-br-lg"></div>
+          </div>
+          
+          <div class="relative overflow-hidden rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-500 group cursor-pointer" id="image-container">
+            <OptimizedImage 
+              src="/imagenes/imagen6.jpg" 
+              alt="DJ Tapia" 
+              class="w-full h-auto object-cover filter group-hover:brightness-110 transition-all duration-500"
+            />
+            
+        
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+          
+            <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+              <p class="text-white font-bold text-xl mb-2">DJ TAPIA</p>
+              <p class="text-orange-400 text-sm">Click para ampliar</p>
+            </div>
+          </div>
+          
+          
+          <div class="absolute -top-6 -left-6 w-32 h-32 bg-orange-500/30 rounded-full blur-3xl animate-pulse"></div>
+          <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+          
+        
+          <div class="absolute top-1/4 -right-4 w-3 h-3 bg-orange-500 rounded-full animate-float"></div>
+          <div class="absolute top-1/2 -left-4 w-2 h-2 bg-orange-400 rounded-full animate-float-delayed"></div>
+          <div class="absolute bottom-1/4 right-8 w-2 h-2 bg-orange-300 rounded-full animate-float-slow"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-10 w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+    <div class="absolute top-1/3 right-20 w-3 h-3 bg-orange-500 rounded-full animate-pulse delay-100"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-2 h-2 bg-orange-500 rounded-full animate-pulse delay-200"></div>
+    <div class="absolute top-1/2 left-1/3 w-1 h-1 bg-orange-400 rounded-full animate-pulse delay-300"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-2 h-2 bg-orange-300 rounded-full animate-pulse delay-400"></div>
+  </div>
+
+ 
+<div class="absolute bottom-0 left-0 right-0 h-32 overflow-hidden">
+    <svg class="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#111827;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="waveGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V120H0Z" opacity=".25" fill="url(#waveGradient1)"></path>
+      <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V120H0Z" opacity=".5" fill="url(#waveGradient2)"></path>
+      <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V120H0Z" fill="url(#waveGradient3)"></path>
+    </svg>
+  </div>
+  
+</section>
+
+
+
+<div id="image-modal" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+  <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-orange-500 transition-colors z-10">
+    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <OptimizedImage id="modal-image" src="/imagenes/imagen6.jpg" alt="DJ Tapia" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" />
+</div>
+
+<style>
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+  
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-20px) translateX(10px);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-15px) translateX(-10px);
+    }
+  }
+
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-25px) scale(1.2);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 4s ease-in-out infinite;
+    animation-delay: 0.5s;
+  }
+
+  .animate-float-slow {
+    animation: float-slow 5s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  #image-modal {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  #image-modal.flex #modal-image {
+    animation: zoomIn 0.4s ease-out;
+  }
+
+  #image-modal.closing {
+    animation: fadeIn 0.3s ease-out reverse;
+  }
+
+  #image-modal.closing #modal-image {
+    animation: zoomIn 0.3s ease-out reverse;
+  }
+</style>
+
+<script>
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
+
+  AOS.init({
+    duration: 800,
+    once: true,
+    offset: 100,
+    easing: 'ease-out-cubic'
+  });
+
+
+  const imageContainer = document.getElementById('image-container');
+  const modal = document.getElementById('image-modal');
+  const closeModal = document.getElementById('close-modal');
+
+  imageContainer?.addEventListener('click', () => {
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeModal?.addEventListener('click', () => {
+    modal?.classList.add('hidden');
+    modal?.classList.remove('flex');
+    document.body.style.overflow = '';
+  });
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  });
+
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  });
+</script>

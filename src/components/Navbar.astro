@@ -1,0 +1,111 @@
+---
+import NavbarScripts from "./cmp/NavbarScripts.astro";
+import OptimizedImage from "./cmp/OptimizedImage.astro";
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-22">
+   
+      <div class="flex-shrink-0">
+        <a href="/">
+          <OptimizedImage 
+            src="/logo/logo.png" 
+            alt="DJ Tapia - Es Tiempo De Fiesta" 
+            class="h-25 w-auto"
+          />
+        </a>
+      </div>
+      
+     
+      <ul class="hidden md:flex space-x-8">
+        <li>
+          <a 
+            href="#inicio" 
+            class="text-white hover:text-orange-500 font-medium transition-colors duration-300 relative group"
+          >
+            Inicio
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#servicios" 
+            class="text-white hover:text-orange-500 font-medium transition-colors duration-300 relative group"
+          >
+            Servicios
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#contacto" 
+            class="text-white hover:text-orange-500 font-medium transition-colors duration-300 relative group"
+          >
+            Contacto
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile menu button -->
+      <button 
+        id="menu-toggle" 
+        class="md:hidden flex flex-col gap-1.5 p-2"
+        aria-label="Menú"
+      >
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white transition-all duration-300"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="md:hidden hidden bg-black">
+    <ul class="px-4 pt-2 pb-4 space-y-4">
+      <li>
+        <a 
+          href="#inicio" 
+          class="block text-white hover:text-orange-500 font-medium transition-colors duration-300"
+        >
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a 
+          href="#servicios" 
+          class="block text-white hover:text-orange-500 font-medium transition-colors duration-300"
+        >
+          Servicios
+        </a>
+      </li>
+      <li>
+        <a 
+          href="#eventos" 
+          class="block text-white hover:text-orange-500 font-medium transition-colors duration-300"
+        >
+          Eventos
+        </a>
+      </li>
+      <li>
+        <a 
+          href="#galeria" 
+          class="block text-white hover:text-orange-500 font-medium transition-colors duration-300"
+        >
+          Galería
+        </a>
+      </li>
+      <li>
+        <a 
+          href="#contacto" 
+          class="block text-white hover:text-orange-500 font-medium transition-colors duration-300"
+        >
+          Contacto
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<NavbarScripts />

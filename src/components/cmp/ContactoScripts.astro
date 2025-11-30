@@ -1,0 +1,125 @@
+<script>
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
+  
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+
+  function handleSubmit(event: Event) {
+    event.preventDefault();
+    alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
+  }
+
+ 
+  const texts = ["DJ TAPIA", "MÚSICA", "EVENTOS", "FIESTAS"];
+  const velocity = 100;
+  const numCopies = 6;
+
+  const container = document.getElementById('scroll-velocity-container');
+  
+  texts.forEach((text, index) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'relative overflow-hidden';
+    
+    const scroller = document.createElement('div');
+    scroller.className = 'flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-tight drop-shadow md:text-[5rem] md:leading-[5rem] text-orange-500';
+    scroller.style.willChange = 'transform';
+    
+    
+    for (let i = 0; i < numCopies; i++) {
+      const span = document.createElement('span');
+      span.className = 'flex-shrink-0';
+      span.textContent = text + '\u00A0'; // Non-breaking space
+      scroller.appendChild(span);
+    }
+    
+    wrapper.appendChild(scroller);
+    if (container) {
+      container.appendChild(wrapper);
+    }
+    
+    
+    let baseX = 0;
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+    let smoothVelocity = 0;
+    const baseVelocity = index % 2 !== 0 ? -velocity : velocity;
+    let direction = 1;
+    
+    const damping = 50;
+    const stiffness = 400;
+    
+    function updateAnimation() {
+      const currentScrollY = window.scrollY;
+      scrollVelocity = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+      
+    
+      const velocityDiff = scrollVelocity - smoothVelocity;
+      smoothVelocity += velocityDiff * (stiffness / 1000);
+      smoothVelocity *= (1 - damping / 1000);
+      
+    
+      const velocityFactor = Math.max(-5, Math.min(5, (smoothVelocity / 1000) * 5));
+      
+      if (velocityFactor < 0) {
+        direction = -1;
+      } else if (velocityFactor > 0) {
+        direction = 1;
+      }
+      
+      
+      const delta = 1000 / 60; 
+      let moveBy = direction * baseVelocity * (delta / 1000);
+      moveBy += direction * moveBy * Math.abs(velocityFactor);
+      
+      baseX += moveBy;
+      
+     
+      const firstSpan = scroller.querySelector('span');
+      const copyWidth = firstSpan ? firstSpan.offsetWidth : 0;
+      
+      if (copyWidth > 0) {
+       
+        while (baseX < -copyWidth) baseX += copyWidth;
+        while (baseX > 0) baseX -= copyWidth;
+        
+        scroller.style.transform = `translateX(${baseX}px)`;
+      }
+      
+      requestAnimationFrame(updateAnimation);
+    }
+    
+    requestAnimationFrame(updateAnimation);
+  });
+
+ 
+  const contactSection = document.getElementById('contacto');
+  const whatsappButton = document.querySelector('.whatsapp-float');
+  
+  if (contactSection && whatsappButton) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          whatsappButton.classList.remove('hidden');
+          whatsappButton.classList.add('flex');
+          // Trigger animation after a small delay
+          setTimeout(() => {
+            whatsappButton.classList.add('show');
+          }, 100);
+        } else {
+          whatsappButton.classList.remove('flex', 'show');
+          whatsappButton.classList.add('hidden');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+    
+    observer.observe(contactSection);
+  }
+</script>

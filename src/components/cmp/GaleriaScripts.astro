@@ -1,0 +1,127 @@
+<script>
+
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
+
+  AOS.init({
+    duration: 1000,
+    once: false, 
+    offset: 120,
+    easing: 'ease-out-cubic',
+    mirror: true, 
+    anchorPlacement: 'top-bottom'
+  });
+
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.3
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        
+        galleryItems.forEach((item) => {
+          if (item !== entry.target && item.classList.contains('visible')) {
+            item.classList.remove('visible');
+            item.classList.add('fade-out');
+          }
+        });
+        
+        
+        entry.target.classList.remove('fade-out');
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  
+  let ticking = false;
+  
+  function updateParallax() {
+    const scrolled = window.scrollY;
+    const galeriaSection = document.getElementById('galeria');
+    
+    if (galeriaSection) {
+      const rect = galeriaSection.getBoundingClientRect();
+      const sectionTop = rect.top + scrolled;
+      const sectionHeight = rect.height;
+      
+     
+      if (scrolled > sectionTop - window.innerHeight && scrolled < sectionTop + sectionHeight) {
+        const offset = (scrolled - sectionTop) * 0.5;
+        
+        galleryItems.forEach((item, index) => {
+          const speed = 0.3 + (index * 0.1); 
+          const yPos = -(offset * speed);
+          (item as HTMLElement).style.transform = `translateY(${yPos}px)`;
+        });
+      }
+    }
+    
+    ticking = false;
+  }
+
+  function requestParallax() {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', requestParallax);
+
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage') as HTMLImageElement;
+  const modalCaption = document.getElementById('modalCaption');
+  const closeBtn = document.getElementById('closeModal');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  
+  galleryItems.forEach((item) => {
+    observer.observe(item);
+  });
+
+  galleryItems.forEach((item) => {
+    item.addEventListener('click', function(this: HTMLElement) {
+      const imgSrc = this.getAttribute('data-image');
+      const title = this.getAttribute('data-title');
+      const description = this.getAttribute('data-description');
+      
+      if (modal && modalImg && modalCaption && imgSrc && title && description) {
+        modal.classList.remove('hidden');
+        modalImg.src = imgSrc;
+        modalCaption.innerHTML = `<strong class="text-2xl block mb-2">${title}</strong><span class="text-gray-400 text-lg">${description}</span>`;
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>
+

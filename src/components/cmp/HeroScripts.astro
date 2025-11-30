@@ -1,0 +1,310 @@
+<script>
+  const hero = document.getElementById('hero');
+  const heroContent = document.getElementById('hero-content');
+  const heroVideoWrapper = document.getElementById('hero-video-wrapper');
+  const video = document.querySelector('video') as HTMLVideoElement | null;
+
+  // Detectar dispositivo móvil y capacidades
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const supportsWillChange = CSS.supports('will-change', 'transform');
+
+  // Variables de optimización
+  let ticking = false;
+  let lastScrollY = 0;
+  let heroHeight = 0;
+
+  // Funciones de easing para animaciones suaves
+  const easeOutQuart = (x: number): number => 1 - Math.pow(1 - x, 4);
+  const easeInOutCubic = (x: number): number => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const easeOutExpo = (x: number): number => x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+
+  // Inicializar altura del hero
+  function updateHeroHeight() {
+    heroHeight = hero?.offsetHeight || 0;
+  }
+
+  // Función principal de animación de scroll - MEJORADA
+  function updateHeroAnimation() {
+    const scrolled = lastScrollY;
+    
+    if (scrolled <= heroHeight * 1.5) {
+      // Progreso normalizado de 0 a 1
+      const progress = Math.min(scrolled / heroHeight, 1);
+      const progressSmooth = easeOutQuart(progress);
+      const progressExpo = easeOutExpo(progress);
+      
+      // === EFECTO 1: Fade out con curva suave ===
+      const opacity = 1 - easeInOutCubic(progress);
+      
+      // === EFECTO 2: Parallax multi-capa (más pronunciado en desktop) ===
+      const parallaxContent = scrolled * (isMobile ? 0.6 : 0.8);
+      const parallaxVideo = scrolled * (isMobile ? 0.25 : 0.4);
+      
+      // === EFECTO 3: Scale (zoom) progresivo ===
+      const scaleContent = 1 - (progressSmooth * 0.15); // Reduce hasta 85%
+      const scaleVideo = 1 + (progressSmooth * 0.2); // Aumenta hasta 120%
+      
+      // === EFECTO 4: Blur cinematográfico ===
+      const blurContent = isMobile ? progressExpo * 3 : progressExpo * 5;
+      const blurVideo = isMobile ? progressExpo * 4 : progressExpo * 8;
+      
+      // === EFECTO 5: Brightness & Contrast dinámico ===
+      const brightness = 1 - (progressSmooth * 0.4); // Se oscurece hasta 60%
+      const contrast = 1 + (progressSmooth * 0.2); // Aumenta contraste 20%
+      
+      // === EFECTO 6: Rotación 3D sutil (solo desktop) ===
+      const rotateX = isMobile ? 0 : progress * 8;
+      const rotateY = isMobile ? 0 : Math.sin(progress * Math.PI) * 3;
+      
+      // === EFECTO 7: Skew para sensación de velocidad ===
+      const skewY = isMobile ? 0 : progress * 2;
+
+      // Aplicar transformaciones al CONTENIDO
+      if (heroContent) {
+        heroContent.style.opacity = Math.max(0, opacity).toString();
+        
+        if (isMobile) {
+          // Versión móvil optimizada
+          heroContent.style.transform = `
+            translateY(${parallaxContent}px) 
+            scale(${scaleContent})
+          `;
+          heroContent.style.filter = `blur(${blurContent}px)`;
+        } else {
+          // Versión desktop con todos los efectos
+          heroContent.style.transform = `
+            translateY(${parallaxContent}px) 
+            scale(${scaleContent})
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            skewY(${skewY}deg)
+          `;
+          heroContent.style.filter = `blur(${blurContent}px) brightness(${brightness})`;
+        }
+      }
+      
+      // Aplicar transformaciones al VIDEO
+      if (heroVideoWrapper) {
+        const videoOpacity = Math.max(0, opacity * 1.1);
+        heroVideoWrapper.style.opacity = videoOpacity.toString();
+        
+        if (isMobile) {
+          // Versión móvil simple
+          heroVideoWrapper.style.transform = `
+            translateY(${parallaxVideo}px)
+            scale(${scaleVideo})
+          `;
+          heroVideoWrapper.style.filter = `blur(${blurVideo}px) brightness(${brightness})`;
+        } else {
+          // Versión desktop completa
+          heroVideoWrapper.style.transform = `
+            translateY(${parallaxVideo}px)
+            scale(${scaleVideo})
+            rotateX(${rotateX * 0.5}deg)
+          `;
+          heroVideoWrapper.style.filter = `
+            blur(${blurVideo}px) 
+            brightness(${brightness}) 
+            contrast(${contrast})
+            saturate(${1 - progress * 0.3})
+          `;
+        }
+      }
+    }
+  }
+
+  // Handler de scroll optimizado con RAF
+  function handleScroll() {
+    lastScrollY = window.pageYOffset;
+    
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateHeroAnimation();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  // Animación de entrada inicial
+  function initHeroEntrance() {
+    if (prefersReducedMotion) return;
+
+    // Animación del contenido
+    if (heroContent) {
+      heroContent.style.opacity = '0';
+      heroContent.style.transform = isMobile 
+        ? 'translateY(40px) scale(0.9)' 
+        : 'translateY(60px) scale(0.9) rotateX(10deg)';
+      
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          if (heroContent) {
+            heroContent.style.transition = 'opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1), transform 1.4s cubic-bezier(0.22, 1, 0.36, 1)';
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+          }
+        }, 200);
+      });
+    }
+
+    if (heroVideoWrapper) {
+      heroVideoWrapper.style.opacity = '0';
+      heroVideoWrapper.style.transform = 'scale(1.15)';
+      
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          if (heroVideoWrapper) {
+            heroVideoWrapper.style.transition = 'opacity 2s cubic-bezier(0.22, 1, 0.36, 1), transform 2s cubic-bezier(0.22, 1, 0.36, 1)';
+            heroVideoWrapper.style.opacity = '1';
+            heroVideoWrapper.style.transform = 'scale(1)';
+          }
+        }, 100);
+      });
+    }
+  }
+
+  
+  function setupPerformanceOptimizations() {
+    if (supportsWillChange && !isMobile) {
+      heroContent?.style.setProperty('will-change', 'transform, opacity');
+      heroVideoWrapper?.style.setProperty('will-change', 'transform, opacity');
+      
+    
+      setTimeout(() => {
+        heroContent?.style.removeProperty('will-change');
+        heroVideoWrapper?.style.removeProperty('will-change');
+      }, 3000);
+    }
+
+    // Perspective en el hero para efectos 3D
+    if (hero && !isMobile) {
+      hero.style.perspective = '1200px';
+      hero.style.perspectiveOrigin = '50% 50%';
+    }
+  }
+
+  function setupVideoOptimizations() {
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              video.muted = true;
+              video.play();
+            });
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: isMobile ? 0.1 : 0.25 }
+    );
+    
+    observer.observe(video);
+
+   
+    if (isMobile) {
+      video.playsInline = true;
+      video.muted = true;
+     
+      if ('requestVideoFrameCallback' in video) {
+        video.playbackRate = 1.0;
+      }
+    }
+
+   
+    if (!isMobile) {
+      video.preload = 'auto';
+    } else {
+      video.preload = 'metadata';
+    }
+  }
+
+
+  function setupMouseParallax() {
+    if (isMobile || prefersReducedMotion) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let isAnimating = false;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      
+      if (!isAnimating && lastScrollY < 100) {
+        isAnimating = true;
+        requestAnimationFrame(animateMouseParallax);
+      }
+    }, { passive: true });
+
+    function animateMouseParallax() {
+      currentX += (mouseX - currentX) * 0.08;
+      currentY += (mouseY - currentY) * 0.08;
+
+      if (heroContent && lastScrollY < 100) {
+        const translateX = currentX * 15;
+        const translateY = currentY * 15;
+        const rotateY = currentX * 5;
+        const rotateX = -currentY * 5;
+        
+        heroContent.style.transform = `
+          translate(${translateX}px, ${translateY}px)
+          rotateY(${rotateY}deg)
+          rotateX(${rotateX}deg)
+        `;
+      }
+
+      if (Math.abs(mouseX - currentX) > 0.01 || Math.abs(mouseY - currentY) > 0.01) {
+        requestAnimationFrame(animateMouseParallax);
+      } else {
+        isAnimating = false;
+      }
+    }
+  }
+
+  // Resize handler optimizado
+  let resizeTimeout: number;
+  function handleResize() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      updateHeroHeight();
+      updateHeroAnimation();
+    }, 150);
+  }
+
+  // Inicialización
+  function init() {
+    updateHeroHeight();
+    setupPerformanceOptimizations();
+    setupVideoOptimizations();
+    initHeroEntrance();
+    setupMouseParallax();
+    
+    // Initial animation
+    updateHeroAnimation();
+  }
+
+  // Event listeners
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', handleResize, { passive: true });
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Cleanup
+  document.addEventListener('astro:before-swap', () => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('resize', handleResize);
+  });
+</script>
